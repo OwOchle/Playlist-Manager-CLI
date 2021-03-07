@@ -44,8 +44,8 @@ except ValueError:
     input()
     exit(1)
 
-if pldl + 1 >= 0 or pldl > n:
-    print('The number you entered is too high.\nPress Enter to close.')
+if pldl + 1 <= 0 or pldl+1 > n:
+    print('The number you entered is not in range.\nPress Enter to close.')
     input()
     exit(1)
 
