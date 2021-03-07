@@ -6,3 +6,6 @@ The default Path to Beat Saber is set as "C:\\SteamLibrary\\steamapps\\common\\B
 
 # No GUI
 There isn't any GUI and there will probably never be one, Sorry about that
+
+# Feedback
+I obviously need feedbacks about bugs etc... If something go wrong, DM me on discord : Moréo#0001 or open an issue on GitHub.
