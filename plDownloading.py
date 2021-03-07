@@ -31,5 +31,8 @@ def pldownload(maps, playlists, pldl, PLpath, CMpath):
             download_beatmap(item['hash'], CMpath)
             ndl += 1
         print(f'\n\nPlaylist {title} downloaded')
+        input('Press Enter to close')
+
     else:
         print('\n\nAll songs are already downloaded')
+        input('Press Enter to close')
