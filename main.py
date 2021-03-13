@@ -4,6 +4,12 @@ from plDownloading import *
 from checkPath import *
 from PLnew import *
 from EditInfo import *
+from os import mkdir
+
+try:
+    mkdir('Images')
+except:
+    pass
 
 with open('Settings/settings.json') as f:
     f = f.read().replace('\\', '/').replace('//', '/')
@@ -22,7 +28,6 @@ maps = []
 print('Loading all your maps, please wait (can take several minutes depending on your map count)')
 for item in CMdirs:
     maps.append(getHash.gethash(CMpath + item))
-
 
 PLpath = BSpath + 'Playlists/'
 PLfiles = os.listdir(PLpath)
@@ -57,7 +62,6 @@ except ValueError:
     print('Please enter a correct value.\nPress Enter to close.')
     input()
     exit(1)
-
 
 if pldl == 'new':
     pl_create(PLpath)
