@@ -2,6 +2,8 @@ import getHash
 import json
 from plDownloading import *
 from checkPath import *
+from PLnew import *
+from EditInfo import *
 
 with open('Settings/settings.json') as f:
     f = f.read().replace('\\', '/').replace('//', '/')
@@ -10,7 +12,8 @@ with open('Settings/settings.json') as f:
 BSpath = settings['BSpath']
 if BSpath[-1] != '/':
     BSpath += '/'
-chech_path(BSpath)
+if settings['checkPath']:
+    chech_path(BSpath)
 CMpath = BSpath + 'Beat Saber_Data/CustomLevels/'
 CMdirs = os.listdir(CMpath)
 maps = []
@@ -19,6 +22,7 @@ maps = []
 print('Loading all your maps, please wait (can take several minutes depending on your map count)')
 for item in CMdirs:
     maps.append(getHash.gethash(CMpath + item))
+
 
 PLpath = BSpath + 'Playlists/'
 PLfiles = os.listdir(PLpath)
@@ -32,21 +36,61 @@ for item in PLfiles:
         playlists.append({'title': jsonf['playlistTitle'], 'fileName': item})
 
 n = 1
-print('Select your playlist')
+print('Select the playlist you want :')
 for item in playlists:
     print(f'{n}: {item["title"]}')
     n += 1
 
+pldl = input('Type the number of the playlist you want to select or type "new" to create a new playlist\n')
 try:
-    pldl = int(input(''))-1
+    while True:
+        if pldl != 'new':
+            pldl = int(pldl) - 1
+            if pldl + 1 <= 0 or pldl + 1 >= n:
+                print('The number you entered is not in range.')
+                pldl = input('Please retry\n')
+            else:
+                break
+        else:
+            break
 except ValueError:
     print('Please enter a correct value.\nPress Enter to close.')
     input()
     exit(1)
 
-if pldl + 1 <= 0 or pldl+1 > n:
-    print('The number you entered is not in range.\nPress Enter to close.')
-    input()
-    exit(1)
 
-pldownload(maps, playlists, pldl, PLpath, CMpath)
+if pldl == 'new':
+    pl_create(PLpath)
+else:
+    while True:
+        print('\n\nWhat do you want to do with this playlist :')
+        print('delete, addmap, removemap, editinfo, download, exit')
+        commands = ['DELETE', 'ADDMAP', 'REMOVEMAP', 'EDITINFO', 'DOWNLOAD', 'EXIT']
+        incom = input()
+        if incom.upper() not in commands:
+            print('The command doesn\'t seem right')
+        else:
+            if incom.upper() == 'DOWNLOAD':
+                pldownload(maps, playlists, pldl, PLpath, CMpath)
+
+            elif incom.upper() == 'DELETE':
+                while True:
+                    delcheck = input(f'Are you sure you want to delete "{playlists[pldl]["title"]}" (y/n)')
+                    if delcheck.upper() == 'Y':
+                        os.remove(PLpath + f'{playlists[pldl]["fileName"]}')
+                        print('Playlist deleted\nPress Enter to close.')
+                        input()
+                        exit()
+                    elif delcheck.upper() == 'N':
+                        break
+                    else:
+                        print('Please enter a correct command\n\n')
+
+            elif incom.upper() == 'EXIT':
+                exit(0)
+
+            elif incom.upper() == 'EDITINFO':
+                edit_info(PLpath, playlists[pldl]['fileName'])
+
+            else:
+                print('This command is not yet implemented')

@@ -1,6 +1,7 @@
 import hashlib
 import json
-
+from requests import get
+import sys
 
 def gethash(path):
     try:
@@ -16,7 +17,10 @@ def gethash(path):
 
         # Encoding and decoding to have the final hash
         hash = hashlib.sha1(tohash.encode('utf-8')).hexdigest()
+
         return hash
+
     except Exception as e:
         print(path)
         print(e)
+        print("line : " + str(sys.exc_info()[2].tb_lineno))

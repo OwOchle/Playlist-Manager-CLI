@@ -8,9 +8,9 @@ import sys
 def download_beatmap(hash, CMpath):
     # headers and getting directDownload link
     headers = {
-        'User-Agent': 'Playlist Downloader and Manager/0.1'}
+        'User-Agent': 'Playlist Manager DOS/0.1 (https://github.com/Moreo18/Playlist-Manager-DOS)'}
     url1 = 'https://beatsaver.com/api/maps/by-hash/'
-    req = get(url1 + hash, headers=headers, cookies=headers)
+    req = get(url1 + hash, headers=headers)
 
     try:
         dD = json.loads(req.content)
