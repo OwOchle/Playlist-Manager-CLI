@@ -3,7 +3,7 @@ import os
 
 def chech_path(path):
     if not os.path.exists(path):
-        print('Invalid path, path does not exist.\nPress Enter to close.')
+        print('Path is invalid or does not exist.\nPress Enter to close.')
         input()
         exit(1)
 
