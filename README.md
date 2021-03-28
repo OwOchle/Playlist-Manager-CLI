@@ -17,8 +17,11 @@ I obviously need feedbacks about bugs, etc... If something went wrong, DM me on 
 
 - Manager will now ask you which playlist you want, either you type a number to select a playlist, either you type "new" to create a new one.
 
+# Caching (in 0.4 and higher)
+By default, the maps will now be cached in a file named *maps.txt* in the settings directory. This greatly improve startup but maps are not refreshed automatically, you can refresh your maps by typing *refresh* on the playlist selction screen. Maps will also be refreshed right after a playlist download. You can disable caching by changing "cacheMaps" to false in `settings.json`.
+
 # Create a new playlist
-To create a new playlist, you need to type "new" as selected playlist. It will ask infos about the playlist (that you can obviously pass). To add an image, you need to put the jpg or the png in the "Images" folder.
+To create a new playlist, you need to type *new* as selected playlist. It will ask infos about the playlist (that you can obviously pass). To add an image, you need to put the jpg or the png in the "Images" folder.
 
 # List of commands :
 You need to select a playlist before typing these commands.
@@ -26,10 +29,10 @@ You need to select a playlist before typing these commands.
   As the name says, this command is to delete a playlist. After you typed this command, it will ask you if you're sure, because it can't be undone (as files don't go in the bin)
 
 ## ADDMAP
-Not implemented yet 
+This command allows you to add maps in your playlist by typing the bsr of the map you want to add (you can add multiple maps by separating bsr with commas).
 
 ## REMOVEMAP
-Not implemented yet 
+This command allows you to remove maps from your playlist by typing the index of the map you want to remove (you can remove multiple maps by separating indexes with commas). If your playlist contains more than 50 maps, you can type *next* to see the next 50 maps and *back* to see the previous 50.
 
 ## EDITINFO
 This command allows you to change infos of a playlist (Title, Author, etc...) **but not the maps inside the playlist**
