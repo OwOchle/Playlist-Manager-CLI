@@ -1,5 +1,5 @@
 import json
-from mapdownload import *
+from mapDownload import *
 
 
 def pldownload(maps, playlists, pldl, PLpath, CMpath):
@@ -12,22 +12,18 @@ def pldownload(maps, playlists, pldl, PLpath, CMpath):
     pldl = open(pldl).read()
     pldl = json.loads(pldl)
     todl = []
-    todlnbr = 0
 
     # Checks if maps in playlists are already downloaded
     for item in pldl['songs']:
         if item['hash'].lower() not in maps:
             todl.append(item)
 
-    # Count maps
-    for item in todl:
-        todlnbr += 1
     ndl = 1
 
-    # Downloading map using downloadbeatmap fonction in mapdownload.py
+    # Downloading map using downloadbeatmap fonction in mapDownload.py
     if todl:
         for item in todl:
-            print('\nNow Downloading : ' + item['songName'] + f' {ndl}/{todlnbr}')
+            print('\nNow Downloading : ' + item['songName'] + f' {ndl}/{len(todl)}')
             download_beatmap(item['hash'], CMpath)
             ndl += 1
         print(f'\n\nPlaylist {title} downloaded')

@@ -3,6 +3,7 @@ import json
 from requests import get
 import sys
 
+
 def gethash(path):
     try:
         # Open the file to use it in hash encoding and difficulties
