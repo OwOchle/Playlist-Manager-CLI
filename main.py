@@ -1,12 +1,9 @@
 import getHash
-import json
-from plDownloading import *
 from checkPath import *
 from newPl import *
-from editInfo import *
 from os import mkdir
-from addMap import addmap
-from remMap import *
+from storedHashesManagement import *
+from plSel import plsel
 
 try:
     mkdir('Images')
@@ -27,9 +24,17 @@ CMdirs = os.listdir(CMpath)
 maps = []
 
 # Get all maps hashes
-print('Loading all your maps, please wait (can take several minutes depending on your map count)')
-for item in CMdirs:
-    maps.append(getHash.gethash(CMpath + item))
+
+if settings["cacheMaps"]:
+    if not os.path.isfile('./Settings/maps.txt'):
+        refresh(CMpath, CMdirs)
+    maps = loadmaps()
+
+else:
+    print('Loading all your maps, please wait (can take several minutes depending on your map count)')
+    for item in CMdirs:
+        maps.append(getHash.gethash(CMpath + item))
+
 
 PLpath = BSpath + 'Playlists/'
 PLfiles = os.listdir(PLpath)
@@ -49,63 +54,29 @@ for item in playlists:
     n += 1
 
 loop = True
-selpl = input('Type the number of the playlist you want to select, type "new" to create a new playlist or type "refresh" to refresh all your songs\n')
 while loop:
+    n = 1
+    print('Select the playlist you want :')
+    for item in playlists:
+        print(f'{n}: {item["title"]}')
+        n += 1
+    selpl = input('Type the number of the playlist you want to select, type "new" to create a new playlist or type "refresh" to refresh all your songs\n')
     try:
-        while loop:
-            if selpl.upper() == 'EXIT':
-                exit(0)
-            if selpl.upper() != 'NEW':
-                selpl = int(selpl) - 1
-                if selpl + 1 <= 0 or selpl + 1 >= n:
-                    print('The number you entered is not in range.')
-                    selpl = input('Please retry\n')
-                else:
-                    loop = False
+        if selpl.upper() == 'EXIT':
+            exit(0)
+        elif selpl.upper() == 'REFRESH':
+            maps = refresh(CMpath, CMdirs)
+            print('Song Refreshed')
+        elif selpl.upper() == 'NEW':
+            pl_create(PLpath)
+        elif selpl.upper() != 'NEW':
+            selpl = int(selpl) - 1
+            if selpl + 1 <= 0 or selpl + 1 >= n:
+                print('The number you entered is not in range.')
+                selpl = input('Please retry\n')
             else:
-                loop = False
-    except ValueError:
-        selpl = input('Please enter a correct value\n')
-
-
-if selpl == 'new':
-    pl_create(PLpath)
-else:
-    while True:
-        print('\n\nWhat do you want to do with this playlist :')
-        print('delete, addmap, removemap, editinfo, download, exit')
-        commands = ['DELETE', 'ADDMAP', 'REMOVEMAP', 'EDITINFO', 'DOWNLOAD', 'EXIT', 'REFRESH']
-        incom = input()
-        if incom.upper() not in commands:
-            print('The command doesn\'t seem right')
+                plsel(PLpath, playlists, CMdirs, CMpath, settings, maps, selpl)
         else:
-            if incom.upper() == 'DOWNLOAD':
-                pldownload(maps, playlists, selpl, PLpath, CMpath)
-
-            elif incom.upper() == 'DELETE':
-                while True:
-                    delcheck = input(f'Are you sure you want to delete "{playlists[selpl]["title"]}" (y/n)')
-                    if delcheck.upper() == 'Y':
-                        os.remove(PLpath + f'{playlists[selpl]["fileName"]}')
-                        print('Playlist deleted\nPress Enter to close.')
-                        input()
-                        exit()
-                    elif delcheck.upper() == 'N':
-                        break
-                    else:
-                        print('Please enter a correct letter\n\n')
-
-            elif incom.upper() == 'EXIT':
-                exit(0)
-
-            elif incom.upper() == 'EDITINFO':
-                edit_info(PLpath, playlists[selpl]['fileName'])
-
-            elif incom.upper() == 'ADDMAP':
-                addmap(PLpath, playlists[selpl]['fileName'])
-
-            elif incom.upper() == 'REMOVEMAP':
-                remmap(PLpath, playlists[selpl]['fileName'])
-
-            else:
-                print('This command is not yet implemented')
+            loop = False
+    except ValueError:
+        print('Please enter a correct value\n')

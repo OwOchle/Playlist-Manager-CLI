@@ -9,14 +9,25 @@ def pldownload(maps, playlists, pldl, PLpath, CMpath):
 
     # opens playlist file
     pldl = PLpath + playlists[pldl]['fileName']
-    pldl = open(pldl).read()
+    pldl = open(pldl, encoding='utf-8').read()
     pldl = json.loads(pldl)
     todl = []
 
     # Checks if maps in playlists are already downloaded
+    print(pldl['songs'])
     for item in pldl['songs']:
-        if item['hash'].lower() not in maps:
-            todl.append(item)
+        try:
+            if item['hash'].lower() not in maps:
+                todl.append(item)
+        except Exception as e:
+            print('------------------------------')
+            print(pldl['songs'])
+            print(e)
+            print(item)
+            print('------------------------------')
+            print('An error occurs, send the text between ----------- to Moréo#1809 on discord')
+            input('Press enter to close')
+            exit(1)
 
     ndl = 1
 
@@ -27,8 +38,6 @@ def pldownload(maps, playlists, pldl, PLpath, CMpath):
             download_beatmap(item['hash'], CMpath)
             ndl += 1
         print(f'\n\nPlaylist {title} downloaded')
-        input('Press Enter to close')
 
     else:
         print('\n\nAll songs are already downloaded')
-        input('Press Enter to close')

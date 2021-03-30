@@ -1,25 +1,24 @@
 import hashlib
 import json
-from requests import get
 import sys
 
 
 def gethash(path):
     try:
         # Open the file to use it in hash encoding and difficulties
-        f = open(path + '/info.dat', encoding='utf-8').read()
+        f = open(path + '/info.dat', 'rb').read()
         tohash = f
-        jsonf = json.loads(f)
+        jsonf = json.loads(f.decode('utf-8'))
 
         # Check all the BeatMaps Sets and All difficulties to add files in the tohash string
         for cat in jsonf["_difficultyBeatmapSets"]:
             for item in cat["_difficultyBeatmaps"]:
-                tohash += open(path + '/' + item['_beatmapFilename'], encoding='utf-8').read()
+                tohash += open(path + '/' + item['_beatmapFilename'],'rb').read()
 
         # Encoding and decoding to have the final hash
-        hash = hashlib.sha1(tohash.encode('utf-8')).hexdigest()
+        hashcode = hashlib.sha1(tohash).hexdigest()
 
-        return hash
+        return hashcode
 
     except Exception as e:
         print(path)
