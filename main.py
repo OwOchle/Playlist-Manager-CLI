@@ -24,14 +24,13 @@ CMdirs = os.listdir(CMpath)
 maps = []
 
 # Get all maps hashes
-
+print('Loading all your maps, please wait (can take several minutes depending on your map count)')
 if settings["cacheMaps"]:
     if not os.path.isfile('./Settings/maps.txt'):
         refresh(CMpath, CMdirs)
     maps = loadmaps()
 
 else:
-    print('Loading all your maps, please wait (can take several minutes depending on your map count)')
     for item in CMdirs:
         maps.append(getHash.gethash(CMpath + item))
 
@@ -46,12 +45,6 @@ for item in PLfiles:
         f = f.read()
         jsonf = json.loads(f)
         playlists.append({'title': jsonf['playlistTitle'], 'fileName': item})
-
-n = 1
-print('Select the playlist you want :')
-for item in playlists:
-    print(f'{n}: {item["title"]}')
-    n += 1
 
 loop = True
 while loop:
