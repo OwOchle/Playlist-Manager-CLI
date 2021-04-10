@@ -1,11 +1,11 @@
-# Playlist Manager CLI
+# Playlist Manager DOS
 A playlist downloader for Beat Saber
 
 # Warning
 **The default Path to Beat Saber is set to "C:\\SteamLibrary\\steamapps\\common\\Beat Saber", to change it, edit the json and replace this path with the right one, the path needs to lead to the Beat Saber directory, NOT PLAYLIST OR CUSTOM MAPS ONE**
 
-# CLI ?
-Yes, CLI or Command Line Interface means that there isn't any GUI, edition is with commands. I'm really sorry but making a GUI in Python is just a nightmare.
+# DOS ?
+Yes, DOS. There isn't any GUI, edition is with commands. I'm really sorry but making a GUI in Python is just a nightmare.
 
 # Feedback
 I obviously need feedbacks about bugs, etc... If something went wrong, DM me on discord : Moréo#0001 or open an issue on GitHub.
